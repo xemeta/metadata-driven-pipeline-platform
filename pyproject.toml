@@ -1,0 +1,25 @@
+[tool.uv]
+dev-dependencies = [
+  "ruff>=0.6.7",
+]
+
+[tool.uv.workspace]
+members = [
+  "meta-model",
+  "pipe-catalog",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = [
+  "meta-model",
+  "pipe-catalog",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
