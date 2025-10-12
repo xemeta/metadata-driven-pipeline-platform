@@ -3,7 +3,9 @@ name = "meta-model"
 version = "0.1.0"
 description = "Metadata-driven pipeline platform meta model primitives."
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+  "pydantic>=2.9",
+]
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]

@@ -7,7 +7,7 @@ install-deps:
 	uv sync --all-extras --dev
 
 lint:
-	uv run ruff check meta-model pipe-catalog
+	uv run ruff check --fix meta-model pipe-catalog
 
 format:
 	uv run ruff format meta-model pipe-catalog
