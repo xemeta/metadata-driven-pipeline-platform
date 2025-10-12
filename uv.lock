@@ -4,8 +4,8 @@ requires-python = ">=3.10"
 
 [manifest]
 members = [
-    "meta-model",
-    "pipe-catalog",
+    "meta_model",
+    "pipe_catalog",
 ]
 
 [manifest.dependency-groups]
@@ -23,7 +23,7 @@ wheels = [
 [[package]]
 name = "meta-model"
 version = "0.1.0"
-source = { editable = "meta-model" }
+source = { editable = "meta_model" }
 dependencies = [
     { name = "pydantic" },
 ]
@@ -34,7 +34,13 @@ requires-dist = [{ name = "pydantic", specifier = ">=2.9" }]
 [[package]]
 name = "pipe-catalog"
 version = "0.1.0"
-source = { editable = "pipe-catalog" }
+source = { editable = "pipe_catalog" }
+dependencies = [
+    { name = "meta-model" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "meta-model", editable = "meta_model" }]
 
 [[package]]
 name = "pydantic"

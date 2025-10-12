@@ -5,16 +5,20 @@ dev-dependencies = [
 
 [tool.uv.workspace]
 members = [
-  "meta-model",
-  "pipe-catalog",
+  "meta_model",
+  "pipe_catalog",
 ]
+
+[tool.uv.sources]
+meta_model = { workspace = true }
+pipe_catalog = { workspace = true }
 
 [tool.ruff]
 line-length = 100
 target-version = "py310"
 src = [
-  "meta-model",
-  "pipe-catalog",
+  "meta_model",
+  "pipe_catalog",
 ]
 
 [tool.ruff.lint]

@@ -1,10 +1,10 @@
 [project]
-name = "meta-model"
+name = "pipe-catalog"
 version = "0.1.0"
-description = "Metadata-driven pipeline platform meta model primitives."
+description = "Pipeline catalog definitions for the metadata-driven platform."
 requires-python = ">=3.10"
 dependencies = [
-  "pydantic>=2.9",
+  "meta-model",
 ]
 
 [build-system]
@@ -12,10 +12,5 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = [
-  "asset",
-  "base",
-  "column",
-  "container",
-  "pipe",
-]
+package-dir = { "" = "src" }
+packages = ["pipe_catalog"]
