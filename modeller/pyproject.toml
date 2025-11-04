@@ -1,0 +1,17 @@
+[project]
+name = "modeller"
+version = "0.1.0"
+description = "Modelling utilities for the metadata-driven pipeline platform."
+requires-python = ">=3.10"
+dependencies = [
+  "meta-model",
+  "pipe-catalog",
+]
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["modeller"]
