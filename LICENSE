@@ -1,3 +1,17 @@
+Mixed Licensing Notice
+======================
+
+This repository contains both open-source and proprietary components:
+
+1. Open-source components: All files located under the `meta_model/` and
+   `pipe_catalog/` directories (including their subdirectories) are provided
+   under the Apache License, Version 2.0, reproduced in full below.
+2. Proprietary components: All other files and directories in this repository
+   are proprietary and distributed under separate terms. No rights are granted
+   for those materials beyond what is expressly stated by the copyright owner.
+
+If you need different licensing terms, please contact the copyright owner.
+
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
