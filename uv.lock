@@ -4,8 +4,8 @@ requires-python = ">=3.10"
 
 [manifest]
 members = [
-    "meta_model",
-    "pipe_catalog",
+    "meta-model",
+    "pipe-catalog",
 ]
 
 [manifest.dependency-groups]

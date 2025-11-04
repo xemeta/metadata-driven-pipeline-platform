@@ -7,11 +7,13 @@ dev-dependencies = [
 members = [
   "meta_model",
   "pipe_catalog",
+  "pipe_workspace",
 ]
 
 [tool.uv.sources]
 meta_model = { workspace = true }
 pipe_catalog = { workspace = true }
+pipe_workspace = { workspace = true }
 
 [tool.ruff]
 line-length = 100
@@ -19,6 +21,7 @@ target-version = "py310"
 src = [
   "meta_model",
   "pipe_catalog",
+  "pipe_workspace",
 ]
 
 [tool.ruff.lint]
@@ -27,3 +30,11 @@ select = ["E", "F", "I"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.pyright]
+extraPaths = [
+  "meta_model/src",
+  "pipe_catalog/src",
+  "pipe_workspace/src",
+]
+stubPath = "typings"
