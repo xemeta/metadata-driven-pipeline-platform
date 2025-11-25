@@ -1,0 +1,191 @@
+<div class="modeler-grid">
+  <section class="canvas-column">
+    <article class="card canvas-card">
+      <header class="card-header">
+        <div>
+          <h2>Data Modeling Canvas</h2>
+          <p>Drag, connect, and organize database tables powered by JointJS.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="ghost" (click)="autoArrange()">Auto layout</button>
+          <button type="button" class="ghost" (click)="loadSampleModel()">Load sample</button>
+        </div>
+      </header>
+      <div class="diagram-container">
+        <div class="diagram-host" #diagramHost></div>
+      </div>
+    </article>
+    <article class="card entity-card">
+      <header class="card-header">
+        <div>
+          <h3>Tables</h3>
+          <p>{{ entities.length }} defined</p>
+        </div>
+      </header>
+      <div class="entity-list">
+        <button
+          type="button"
+          class="entity-chip"
+          *ngFor="let entity of entities"
+          [class.active]="entity.id === selectedEntityId"
+          (click)="selectEntityFromList(entity.id)"
+        >
+          <span class="color-dot" [style.background]="entity.color"></span>
+          <div>
+            <strong>{{ entity.name }}</strong>
+            <small>{{ entity.fields.length }} fields</small>
+          </div>
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <section class="side-column">
+    <article class="card">
+      <header class="card-header">
+        <div>
+          <h3>New Table</h3>
+          <p>Create a table, define its columns, and drop it on the canvas.</p>
+        </div>
+      </header>
+      <form (ngSubmit)="createEntity()" class="stack">
+        <label class="form-control">
+          <span>Table name</span>
+          <input type="text" name="entityName" [(ngModel)]="entityForm.name" placeholder="Orders" />
+        </label>
+
+        <label class="form-control">
+          <span>Color</span>
+          <input type="color" name="entityColor" [(ngModel)]="entityForm.color" />
+        </label>
+
+        <label class="form-control">
+          <span>Description</span>
+          <textarea
+            name="entityNote"
+            rows="3"
+            [(ngModel)]="entityForm.note"
+            placeholder="Purpose, grain, or ownership details"
+          ></textarea>
+        </label>
+
+        <section class="field-builder">
+          <div class="field-grid">
+            <label class="form-control">
+              <span>Column name</span>
+              <input type="text" name="fieldName" [(ngModel)]="fieldForm.name" placeholder="status" />
+            </label>
+            <label class="form-control">
+              <span>Type</span>
+              <select name="fieldType" [(ngModel)]="fieldForm.type">
+                <option *ngFor="let type of fieldTypeOptions" [value]="type">{{ type }}</option>
+              </select>
+            </label>
+          </div>
+          <div class="field-meta">
+            <label class="checkbox">
+              <input type="checkbox" name="fieldPrimary" [(ngModel)]="fieldForm.isPrimary" />
+              <span>Primary key</span>
+            </label>
+            <input
+              type="text"
+              class="field-description"
+              name="fieldDescription"
+              [(ngModel)]="fieldForm.description"
+              placeholder="Optional note"
+            />
+            <button type="button" class="ghost" (click)="addField()">Add column</button>
+          </div>
+          <ul class="field-list" *ngIf="stagedFields.length">
+            <li *ngFor="let field of stagedFields">
+              <div>
+                <strong [class.primary]="field.isPrimary">{{ field.name }}</strong>
+                <span class="type">{{ field.type }}</span>
+                <small *ngIf="field.description">{{ field.description }}</small>
+              </div>
+              <button type="button" class="ghost" (click)="removeField(field.id)">Remove</button>
+            </li>
+          </ul>
+        </section>
+
+        <button type="submit" class="primary">Add table</button>
+      </form>
+    </article>
+
+    <article class="card">
+      <header class="card-header">
+        <div>
+          <h3>Relationships</h3>
+          <p>Connect any two tables to describe referential rules.</p>
+        </div>
+      </header>
+      <form (ngSubmit)="createRelationship()" class="stack">
+        <label class="form-control">
+          <span>From</span>
+          <select name="relationshipFrom" [(ngModel)]="relationshipForm.fromId">
+            <option value="">Select table</option>
+            <option *ngFor="let entity of entities" [value]="entity.id">{{ entity.name }}</option>
+          </select>
+        </label>
+
+        <label class="form-control">
+          <span>To</span>
+          <select name="relationshipTo" [(ngModel)]="relationshipForm.toId">
+            <option value="">Select table</option>
+            <option *ngFor="let entity of entities" [value]="entity.id">{{ entity.name }}</option>
+          </select>
+        </label>
+
+        <label class="form-control">
+          <span>Cardinality</span>
+          <select name="relationshipType" [(ngModel)]="relationshipForm.type">
+            <option *ngFor="let type of relationshipTypeOptions" [value]="type">{{ type }}</option>
+          </select>
+        </label>
+
+        <label class="form-control">
+          <span>Notes</span>
+          <input type="text" name="relationshipNote" [(ngModel)]="relationshipForm.note" placeholder="Optional context" />
+        </label>
+
+        <button type="submit" class="primary">Link tables</button>
+      </form>
+
+      <div class="relationship-list" *ngIf="relationships.length">
+        <div class="relationship-row" *ngFor="let relationship of relationships">
+          <div>
+            <strong>{{ entityName(relationship.fromId) }}</strong>
+            <span class="relationship-type">{{ relationship.type }}</span>
+            <strong>{{ entityName(relationship.toId) }}</strong>
+          </div>
+          <button type="button" class="ghost" (click)="deleteRelationship(relationship.id)">Remove</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" *ngIf="selectedEntity as entity">
+      <header class="card-header">
+        <div>
+          <h3>{{ entity.name }}</h3>
+          <p>Selected table overview</p>
+        </div>
+        <span class="badge">Focused</span>
+      </header>
+      <p class="entity-note" *ngIf="entity.note; else noNote">{{ entity.note }}</p>
+      <ng-template #noNote>
+        <p class="entity-note muted">No descriptive note added yet.</p>
+      </ng-template>
+      <ul class="field-breakdown">
+        <li *ngFor="let field of entity.fields">
+          <div>
+            <strong [class.primary]="field.isPrimary">{{ field.name }}</strong>
+            <span class="type">{{ field.type }}</span>
+          </div>
+          <small *ngIf="field.description">{{ field.description }}</small>
+        </li>
+      </ul>
+    </article>
+
+    <p class="hint" *ngIf="formHint">{{ formHint }}</p>
+  </section>
+</div>

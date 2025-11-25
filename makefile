@@ -1,4 +1,4 @@
-.PHONY: install-uv install-deps lint format
+.PHONY: install-uv install-deps lint format ui-start
 
 install-uv:
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -11,3 +11,6 @@ lint:
 
 format:
 	uv run ruff format meta_model pipe_catalog
+
+ui-start:
+	PATH="$(CURDIR)/.n/bin:$$PATH" npm run start --prefix modelling-tool-ui
